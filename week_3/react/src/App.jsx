@@ -2,15 +2,19 @@ import { useState } from "react";
 import "./App.css";
 import { PlayerCard } from "./components/PlayerCard";
 import { defenseLines, forwardLines, goalies } from "./teamRoster";
-
+import { TeamCard } from "./components/TeamCard";
 function App() {
   let [forwardLineNumber, setForwardLineNumber] = useState(0);
-
   const [oneForwardLine, setOneForwardLine] = useState(
     forwardLines[forwardLineNumber]
   );
   const [oneDefenseLine, setOneDefenseLine] = useState(defenseLines[0]);
-
+  const [team, setTeam] = useState({
+    name: "Panthers",
+    location: "Florida",
+    stadium: "FLA Live Arena",
+    founded: "1993",
+  });
   {
     /* build cards for the hockey team  √*/
   }
@@ -23,11 +27,21 @@ function App() {
   }
 
   //  day 2 each position should show one line at a time.
-
   // we will need something to select which one (function)
   // if we have time we can create a form to update state.
-  // (refactor to use useState)?
-  // 
+
+  //day 3
+  // (refactor state to use a team variable)
+  // handling changing state from the page
+  // passing data from parent to children components
+
+  const handleInputChange = e => {
+    setTeam({
+      ...team,
+      [e.target.name]: e.target.value,
+    })
+    console.log(team)
+  };
 
   let updateForwardLine = () => {
     if (oneForwardLine.line < forwardLines.length - 1) {
@@ -41,6 +55,10 @@ function App() {
   return (
     <>
       <h1>Hockey Roster</h1>
+
+      <TeamCard team={team} handleInputChange={handleInputChange}/>
+
+
       <div className="forwards" style={{ outline: "4px solid red" }}>
         <h3>Offense line: {forwardLineNumber + 1}</h3>
         <button onClick={updateForwardLine}>Next Line</button>
